@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberShield — Login</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- App stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="login-page">
+
+  <!-- Animated background grid overlay -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- Floating orbs for ambient glow effect -->
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <!-- ===== LOGIN CONTAINER ===== -->
+  <main class="login-wrapper">
+
+    <!-- Left panel — branding -->
+    <aside class="login-brand-panel" aria-label="Branding panel">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <i class="fas fa-shield-halved" aria-hidden="true"></i>
+        </div>
+        <h1 class="brand-name">CyberShield</h1>
+        <p class="brand-tagline">Government Link Verification Portal</p>
+        <p class="brand-desc">
+          Protect yourself from phishing attacks and cybercrime. Verify any
+          suspicious link against government-approved databases before clicking.
+        </p>
+        <ul class="brand-features" aria-label="Key features">
+          <li>
+            <span class="feature-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></span>
+            Real-time link verification
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></span>
+            Government-approved domain database
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></span>
+            Phishing pattern detection
+          </li>
+          <li>
+            <span class="feature-icon"><i class="fas fa-check-circle" aria-hidden="true"></i></span>
+            Instant threat alerts
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Right panel — login form -->
+    <section class="login-form-panel" aria-label="Login form">
+      <div class="login-card">
+
+        <!-- Card header -->
+        <div class="login-card-header">
+          <div class="login-shield-icon" aria-hidden="true">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+          <h2>Welcome Back</h2>
+          <p>Sign in to your secure account</p>
+        </div>
+
+        <!-- Login form -->
+        <form id="loginForm" novalidate aria-label="Login form">
+
+          <!-- Username / Email field -->
+          <div class="form-group" id="usernameGroup">
+            <label for="username" class="form-label">
+              <i class="fas fa-user" aria-hidden="true"></i>
+              Username or Email
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-input"
+                placeholder="Enter your username or email"
+                autocomplete="username"
+                spellcheck="false"
+                aria-required="true"
+                aria-describedby="usernameError"
+              />
+              <span class="input-status-icon" aria-hidden="true"></span>
+            </div>
+            <p class="form-error" id="usernameError" role="alert" aria-live="polite"></p>
+          </div>
+
+          <!-- Password field -->
+          <div class="form-group" id="passwordGroup">
+            <label for="password" class="form-label">
+              <i class="fas fa-lock" aria-hidden="true"></i>
+              Password
+            </label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                aria-required="true"
+                aria-describedby="passwordError"
+              />
+              <!-- Toggle password visibility -->
+              <button
+                type="button"
+                id="togglePassword"
+                class="toggle-password-btn"
+                aria-label="Toggle password visibility"
+              >
+                <i class="fas fa-eye" id="togglePasswordIcon" aria-hidden="true"></i>
+              </button>
+            </div>
+            <p class="form-error" id="passwordError" role="alert" aria-live="polite"></p>
+          </div>
+
+          <!-- Remember me + forgot password row -->
+          <div class="form-extras">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" />
+              <span class="checkbox-custom" aria-hidden="true"></span>
+              Remember me
+            </label>
+            <button type="button" class="forgot-link">Forgot password?</button>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" id="loginBtn" class="btn-login" aria-label="Log in">
+            <span id="loginBtnText">
+              <i class="fas fa-right-to-bracket" aria-hidden="true"></i>
+              Login
+            </span>
+            <span id="loginBtnLoader" class="btn-loader hidden" aria-hidden="true">
+              <i class="fas fa-circle-notch fa-spin"></i>
+              Authenticating…
+            </span>
+          </button>
+
+          <!-- General auth error -->
+          <p class="form-error form-error--center" id="authError" role="alert" aria-live="polite"></p>
+
+        </form>
+
+        <!-- Open access hint -->
+        <div class="demo-hint" role="note" aria-label="Login info">
+          <i class="fas fa-circle-info" aria-hidden="true"></i>
+          <span>Enter <strong>any username</strong> and <strong>any password</strong> to continue</span>
+        </div>
+
+        <!-- Card footer -->
+        <p class="login-footer-text">
+          Secured by <strong>CyberShield</strong> — Government of India Initiative
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- App script -->
+  <script src="script.js"></script>
+</body>
+</html>
