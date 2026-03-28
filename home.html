@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberShield — Dashboard</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- App stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="home-page">
+
+  <!-- Ambient background -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ===== TOP NAVIGATION BAR ===== -->
+  <header class="navbar" id="navbar" role="banner">
+    <nav class="nav-container" aria-label="Main navigation">
+
+      <!-- Brand logo -->
+      <a href="#home" class="nav-brand" aria-label="CyberShield Home">
+        <i class="fas fa-shield-halved nav-brand-icon" aria-hidden="true"></i>
+        <span class="nav-brand-name">CyberShield</span>
+        <span class="nav-brand-badge">GOV</span>
+      </a>
+
+      <!-- Desktop navigation links -->
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#home"         class="nav-link active" data-section="home">
+          <i class="fas fa-house" aria-hidden="true"></i> Home
+        </a></li>
+        <li><a href="#testimonials" class="nav-link" data-section="testimonials">
+          <i class="fas fa-star" aria-hidden="true"></i> Testimonials
+        </a></li>
+        <li><a href="#about"        class="nav-link" data-section="about">
+          <i class="fas fa-circle-info" aria-hidden="true"></i> About Us
+        </a></li>
+        <li><a href="#faqs"         class="nav-link" data-section="faqs">
+          <i class="fas fa-circle-question" aria-hidden="true"></i> FAQs
+        </a></li>
+        <li><a href="#profile"      class="nav-link" data-section="profile">
+          <i class="fas fa-user-circle" aria-hidden="true"></i> Profile
+        </a></li>
+      </ul>
+
+      <!-- Navbar right — user info + logout -->
+      <div class="nav-actions">
+        <div class="nav-user-chip">
+          <div class="nav-user-avatar" id="navAvatar" aria-hidden="true">A</div>
+          <span class="nav-user-name" id="navUsername">Admin</span>
+        </div>
+        <button id="logoutBtn" class="btn-logout" aria-label="Logout">
+          <i class="fas fa-right-from-bracket" aria-hidden="true"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+
+      <!-- Hamburger toggle for mobile -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+    </nav>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="mainContent">
+
+    <!-- ─────────────────────────────────────────
+         SECTION 1 — HERO / LINK VERIFIER (#home)
+    ───────────────────────────────────────── -->
+    <section id="home" class="section hero-section" aria-label="Link Verifier">
+
+      <div class="hero-bg-deco" aria-hidden="true">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+      </div>
+
+      <div class="container">
+
+        <!-- Hero headline -->
+        <div class="hero-headline">
+          <span class="hero-badge">
+            <i class="fas fa-shield-halved" aria-hidden="true"></i>
+            Government Verified
+          </span>
+          <h1 class="hero-title">Is That Link Safe?</h1>
+          <p class="hero-subtitle">
+            Paste any URL below and instantly check if it's government-approved.
+            Stay protected from phishing, scams, and cybercrime.
+          </p>
+        </div>
+
+        <!-- ── URL Verifier Card ── -->
+        <div class="verifier-card" role="region" aria-label="URL verification tool">
+
+          <div class="verifier-header">
+            <i class="fas fa-magnifying-glass-plus" aria-hidden="true"></i>
+            <h2>Link Verification Engine</h2>
+          </div>
+
+          <!-- Input row -->
+          <div class="verifier-input-row">
+            <div class="verifier-input-wrapper">
+              <i class="fas fa-link verifier-input-icon" aria-hidden="true"></i>
+              <input
+                type="url"
+                id="urlInput"
+                class="verifier-input"
+                placeholder="https://example.gov.in or any URL…"
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="URL to verify"
+                aria-describedby="urlInputHint"
+              />
+              <button
+                type="button"
+                id="clearUrlBtn"
+                class="clear-url-btn hidden"
+                aria-label="Clear URL input"
+              >
+                <i class="fas fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+            <button
+              type="button"
+              id="verifyBtn"
+              class="btn-verify"
+              aria-label="Verify link"
+            >
+              <i class="fas fa-shield-halved" aria-hidden="true"></i>
+              <span>Verify Link</span>
+            </button>
+          </div>
+
+          <p id="urlInputHint" class="verifier-hint">
+            <i class="fas fa-circle-info" aria-hidden="true"></i>
+            Supports http, https, and domain-only formats
+          </p>
+
+          <!-- Loading spinner (shown while "verifying") -->
+          <div id="loadingSpinner" class="verify-loading hidden" aria-live="polite" aria-label="Verifying link">
+            <div class="spinner-ring" aria-hidden="true">
+              <div class="spinner-ring-inner"></div>
+            </div>
+            <div class="verify-loading-text">
+              <p class="verify-loading-title">Scanning Link…</p>
+              <p class="verify-loading-sub" id="loadingStep">Connecting to verification database</p>
+            </div>
+          </div>
+
+          <!-- Result card (populated by JS) -->
+          <div id="verifyResult" class="verify-result hidden" role="status" aria-live="polite"></div>
+
+        </div>
+
+        <!-- Stats bar -->
+        <div class="hero-stats" aria-label="Platform statistics">
+          <div class="stat-item">
+            <span class="stat-number">50K+</span>
+            <span class="stat-label">Links Verified</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number">12K+</span>
+            <span class="stat-label">Threats Blocked</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number">99.8%</span>
+            <span class="stat-label">Accuracy Rate</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Approved Domains</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         SECTION 2 — TESTIMONIALS
+    ───────────────────────────────────────── -->
+    <section id="testimonials" class="section testimonials-section" aria-label="User testimonials">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">
+            <i class="fas fa-star" aria-hidden="true"></i>
+            Testimonials
+          </span>
+          <h2 class="section-title">Trusted by Citizens Across India</h2>
+          <p class="section-subtitle">
+            See how CyberShield is helping people stay safe online
+          </p>
+        </div>
+
+        <div class="testimonials-grid" role="list">
+
+          <!-- Testimonial 1 -->
+          <article class="testimonial-card" role="listitem" aria-label="Testimonial from Priya Sharma">
+            <div class="testimonial-quote-icon" aria-hidden="true">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "I received a suspicious link claiming to be from my bank.
+              CyberShield instantly flagged it as a phishing site! This tool
+              literally saved my savings. Every Indian should use this."
+            </p>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true" style="--avatar-color: #7c3aed;">PS</div>
+              <div class="author-info">
+                <strong class="author-name">Priya Sharma</strong>
+                <span class="author-role">Retired Teacher, Delhi</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 2 -->
+          <article class="testimonial-card testimonial-card--featured" role="listitem" aria-label="Testimonial from Arjun Mehta">
+            <div class="testimonial-quote-icon" aria-hidden="true">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "As an IT professional, I recommend CyberShield to all my
+              non-tech friends and family. The government-approved database
+              is comprehensive, and the phishing detection is excellent.
+              Simple, fast, and reliable."
+            </p>
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true" style="--avatar-color: #0066ff;">AM</div>
+              <div class="author-info">
+                <strong class="author-name">Arjun Mehta</strong>
+                <span class="author-role">Software Engineer, Bengaluru</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 3 -->
+          <article class="testimonial-card" role="listitem" aria-label="Testimonial from Sunita Rao">
+            <div class="testimonial-quote-icon" aria-hidden="true">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">
+              "My elderly mother received a WhatsApp link asking for Aadhaar
+              details. We verified it here first — and it was flagged as
+              unsafe immediately. CyberShield protected her from a major scam."
+            </p>
+            <div class="testimonial-rating" aria-label="4 out of 5 stars">
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="fas fa-star" aria-hidden="true"></i>
+              <i class="far fa-star" aria-hidden="true"></i>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar" aria-hidden="true" style="--avatar-color: #059669;">SR</div>
+              <div class="author-info">
+                <strong class="author-name">Sunita Rao</strong>
+                <span class="author-role">Homemaker, Hyderabad</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         SECTION 3 — ABOUT US
+    ───────────────────────────────────────── -->
+    <section id="about" class="section about-section" aria-label="About CyberShield">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">
+            <i class="fas fa-circle-info" aria-hidden="true"></i>
+            About Us
+          </span>
+          <h2 class="section-title">Fighting Cybercrime Together</h2>
+          <p class="section-subtitle">
+            Our mission is to build a safer digital India
+          </p>
+        </div>
+
+        <!-- About content grid -->
+        <div class="about-grid">
+
+          <!-- Left — main description -->
+          <div class="about-text-col">
+            <p class="about-lead">
+              CyberShield is a Government of India initiative under the
+              Ministry of Electronics and Information Technology (MeitY),
+              designed to empower every citizen with the tools to identify
+              and avoid cybercrime threats.
+            </p>
+            <p class="about-body">
+              Every day, millions of Indians receive phishing links via SMS,
+              email, and messaging apps. These malicious URLs mimic government
+              portals, banks, and trusted services to steal personal data and
+              money. CyberShield bridges the awareness gap by providing
+              instant, reliable link verification.
+            </p>
+            <p class="about-body">
+              Our verification engine cross-references submitted URLs against
+              a live database of government-approved domains, known phishing
+              patterns, suspicious TLDs, and malicious IP ranges — giving
+              citizens a clear SAFE or UNSAFE verdict in seconds.
+            </p>
+            <div class="about-badges">
+              <span class="about-badge">
+                <i class="fas fa-award" aria-hidden="true"></i>
+                ISO 27001 Certified
+              </span>
+              <span class="about-badge">
+                <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                MeitY Approved
+              </span>
+              <span class="about-badge">
+                <i class="fas fa-lock" aria-hidden="true"></i>
+                End-to-End Encrypted
+              </span>
+            </div>
+          </div>
+
+          <!-- Right — feature cards -->
+          <div class="about-features-col" aria-label="Key features">
+
+            <div class="about-feature-card">
+              <div class="about-feature-icon" aria-hidden="true">
+                <i class="fas fa-database"></i>
+              </div>
+              <div>
+                <h3>Live Domain Database</h3>
+                <p>Constantly updated with verified government and trusted domains across India and globally.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-card">
+              <div class="about-feature-icon" aria-hidden="true">
+                <i class="fas fa-bug"></i>
+              </div>
+              <div>
+                <h3>Phishing Pattern Detection</h3>
+                <p>Advanced heuristics detect lookalike domains, suspicious subdomains, and known phishing tricks.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-card">
+              <div class="about-feature-icon" aria-hidden="true">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <div>
+                <h3>Instant Results</h3>
+                <p>Get a clear verdict in under 2 seconds. No registration required for the basic verification.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-card">
+              <div class="about-feature-icon" aria-hidden="true">
+                <i class="fas fa-users"></i>
+              </div>
+              <div>
+                <h3>Community Reporting</h3>
+                <p>Citizens can report suspicious links to help protect others and improve the database.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Mission statement banner -->
+        <div class="about-mission" role="note">
+          <i class="fas fa-flag" aria-hidden="true"></i>
+          <blockquote>
+            "Our vision is a cyber-safe India where no citizen falls prey to
+            digital fraud. CyberShield is our commitment to that future."
+          </blockquote>
+          <cite>— National Cyber Security Division, MeitY</cite>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         SECTION 4 — FAQs
+    ───────────────────────────────────────── -->
+    <section id="faqs" class="section faqs-section" aria-label="Frequently asked questions">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">
+            <i class="fas fa-circle-question" aria-hidden="true"></i>
+            FAQs
+          </span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-subtitle">
+            Everything you need to know about CyberShield
+          </p>
+        </div>
+
+        <div class="faqs-container" role="list">
+
+          <!-- FAQ 1 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-1"
+              id="faq-btn-1"
+            >
+              <span>What is CyberShield and who built it?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-1"
+              role="region"
+              aria-labelledby="faq-btn-1"
+              hidden
+            >
+              <p>
+                CyberShield is a government-backed web portal developed under
+                the National Cyber Security Policy by the Ministry of Electronics
+                and Information Technology (MeitY). It is designed to help
+                citizens verify the authenticity of links before clicking them,
+                thus reducing phishing attacks, identity theft, and financial fraud.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-2"
+              id="faq-btn-2"
+            >
+              <span>How does the link verification work?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-2"
+              role="region"
+              aria-labelledby="faq-btn-2"
+              hidden
+            >
+              <p>
+                When you paste a URL and click "Verify Link", our engine performs
+                multiple checks:
+              </p>
+              <ul>
+                <li><strong>Domain whitelist check</strong> — We compare the domain against our database of government-approved domains (e.g., .gov.in, .nic.in, mygov.in).</li>
+                <li><strong>Phishing pattern analysis</strong> — We scan for common phishing tricks: IP-based URLs, suspicious TLDs (.xyz, .tk), lookalike domain names, and excessive subdomains.</li>
+                <li><strong>Structural integrity check</strong> — We verify the URL structure for anomalies like homoglyph attacks or misleading paths.</li>
+              </ul>
+              <p>Based on these checks, the URL is marked as <strong>Safe</strong>, <strong>Warning</strong>, or <strong>Unsafe</strong>.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-3"
+              id="faq-btn-3"
+            >
+              <span>Is my data safe when I use CyberShield?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-3"
+              role="region"
+              aria-labelledby="faq-btn-3"
+              hidden
+            >
+              <p>
+                Absolutely. CyberShield does not store, sell, or share the URLs
+                you submit. All verifications are processed with end-to-end
+                encryption (TLS 1.3). We do not collect personally identifiable
+                information beyond what is necessary for account functionality.
+                The platform complies with the IT Act 2000 and India's PDPB
+                (Personal Data Protection Bill) guidelines.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-4"
+              id="faq-btn-4"
+            >
+              <span>What does "Government Approved" mean?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-4"
+              role="region"
+              aria-labelledby="faq-btn-4"
+              hidden
+            >
+              <p>
+                A "Government Approved" link belongs to an official domain registered
+                and verified by the Government of India or a recognized international
+                government body. These include domains ending with:
+              </p>
+              <ul>
+                <li><code>.gov.in</code> — Central/state government portals</li>
+                <li><code>.nic.in</code> — National Informatics Centre</li>
+                <li><code>.gov</code> — US and other international government sites</li>
+                <li><code>.gov.uk</code>, <code>.gov.au</code>, etc. — Foreign government portals</li>
+                <li>Whitelisted portals like mygov.in, digilocker.gov.in, irctc.co.in</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-5"
+              id="faq-btn-5"
+            >
+              <span>What should I do if I've already clicked a suspicious link?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-5"
+              role="region"
+              aria-labelledby="faq-btn-5"
+              hidden
+            >
+              <p>If you suspect you've clicked a phishing link, take these steps <strong>immediately</strong>:</p>
+              <ol>
+                <li>Do NOT enter any personal information on the page.</li>
+                <li>Disconnect your device from the internet if possible.</li>
+                <li>Change passwords for any accounts that may be compromised.</li>
+                <li>Report the incident to the <strong>National Cyber Crime Reporting Portal</strong> at <code>cybercrime.gov.in</code>.</li>
+                <li>Contact your bank if financial information was involved.</li>
+                <li>Run a full antivirus scan on your device.</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="faq-item" role="listitem">
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls="faq-answer-6"
+              id="faq-btn-6"
+            >
+              <span>Can I report a suspicious link through CyberShield?</span>
+              <span class="faq-icon" aria-hidden="true">
+                <i class="fas fa-plus"></i>
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id="faq-answer-6"
+              role="region"
+              aria-labelledby="faq-btn-6"
+              hidden
+            >
+              <p>
+                Yes. After verifying a link, you will see a "Report This Link"
+                option. Reported links are reviewed by our security team and, if
+                confirmed malicious, are added to the national blocklist within
+                24 hours. Community reporting helps protect all citizens — every
+                report matters.
+              </p>
+            </div>
+          </div>
+
+        </div><!-- /.faqs-container -->
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────
+         SECTION 5 — USER PROFILE
+    ───────────────────────────────────────── -->
+    <section id="profile" class="section profile-section" aria-label="User profile">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">
+            <i class="fas fa-user-circle" aria-hidden="true"></i>
+            User Profile
+          </span>
+          <h2 class="section-title">Your Account</h2>
+          <p class="section-subtitle">Manage your CyberShield profile</p>
+        </div>
+
+        <div class="profile-grid">
+
+          <!-- Profile card -->
+          <div class="profile-card" aria-label="Profile information">
+            <div class="profile-card-header">
+              <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profileAvatar" aria-hidden="true">A</div>
+                <div class="profile-avatar-badge" aria-label="Verified account">
+                  <i class="fas fa-check" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="profile-name-block">
+                <h3 class="profile-name" id="profileName">Admin User</h3>
+                <span class="profile-role-badge">
+                  <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                  Verified Citizen
+                </span>
+              </div>
+            </div>
+
+            <div class="profile-details">
+              <div class="profile-detail-row">
+                <span class="profile-detail-label">
+                  <i class="fas fa-envelope" aria-hidden="true"></i>
+                  Email
+                </span>
+                <span class="profile-detail-value" id="profileEmail">admin@cybershield.gov.in</span>
+              </div>
+              <div class="profile-detail-row">
+                <span class="profile-detail-label">
+                  <i class="fas fa-id-badge" aria-hidden="true"></i>
+                  User ID
+                </span>
+                <span class="profile-detail-value" id="profileId">CS-2024-00001</span>
+              </div>
+              <div class="profile-detail-row">
+                <span class="profile-detail-label">
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  Member Since
+                </span>
+                <span class="profile-detail-value">January 2024</span>
+              </div>
+              <div class="profile-detail-row">
+                <span class="profile-detail-label">
+                  <i class="fas fa-map-pin" aria-hidden="true"></i>
+                  Location
+                </span>
+                <span class="profile-detail-value">New Delhi, India</span>
+              </div>
+              <div class="profile-detail-row">
+                <span class="profile-detail-label">
+                  <i class="fas fa-phone" aria-hidden="true"></i>
+                  Phone
+                </span>
+                <span class="profile-detail-value">+91 98XXX XXXXX</span>
+              </div>
+            </div>
+
+            <button class="btn-edit-profile" aria-label="Edit profile (demo only)">
+              <i class="fas fa-pen" aria-hidden="true"></i>
+              Edit Profile
+            </button>
+          </div>
+
+          <!-- Activity / Stats card -->
+          <div class="profile-stats-col">
+
+            <div class="profile-stats-card" aria-label="Your activity statistics">
+              <h4 class="profile-stats-title">
+                <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                Your Activity
+              </h4>
+              <div class="profile-stats-grid">
+                <div class="profile-stat">
+                  <span class="profile-stat-number" id="statVerified">0</span>
+                  <span class="profile-stat-label">Links Verified</span>
+                </div>
+                <div class="profile-stat profile-stat--safe">
+                  <span class="profile-stat-number" id="statSafe">0</span>
+                  <span class="profile-stat-label">Safe Found</span>
+                </div>
+                <div class="profile-stat profile-stat--danger">
+                  <span class="profile-stat-number" id="statUnsafe">0</span>
+                  <span class="profile-stat-label">Unsafe Found</span>
+                </div>
+                <div class="profile-stat profile-stat--warning">
+                  <span class="profile-stat-number" id="statWarning">0</span>
+                  <span class="profile-stat-label">Warnings</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent verifications -->
+            <div class="profile-history-card" aria-label="Recent verification history">
+              <h4 class="profile-stats-title">
+                <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+                Recent Verifications
+              </h4>
+              <ul class="history-list" id="historyList" aria-label="Verification history" role="list">
+                <li class="history-empty">
+                  <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                  <span>No verifications yet. Try verifying a link!</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Security tips card -->
+            <div class="security-tips-card" aria-label="Security tips">
+              <h4 class="security-tips-title">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                Security Tips
+              </h4>
+              <ul class="tips-list" role="list">
+                <li><i class="fas fa-circle-check" aria-hidden="true"></i> Always verify links before clicking</li>
+                <li><i class="fas fa-circle-check" aria-hidden="true"></i> Government sites use .gov.in domains</li>
+                <li><i class="fas fa-circle-check" aria-hidden="true"></i> Never share OTPs or passwords</li>
+                <li><i class="fas fa-circle-check" aria-hidden="true"></i> Report suspicious links to cybercrime.gov.in</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand-col">
+          <div class="footer-logo">
+            <i class="fas fa-shield-halved" aria-hidden="true"></i>
+            <span>CyberShield</span>
+          </div>
+          <p>A Government of India initiative to make the internet safer for every citizen.</p>
+          <div class="footer-socials" aria-label="Social media links">
+            <a href="#" class="footer-social" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+            <a href="#" class="footer-social" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+            <a href="#" class="footer-social" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h5>Quick Links</h5>
+          <ul role="list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h5>Resources</h5>
+          <ul role="list">
+            <li><a href="#">Cyber Crime Portal</a></li>
+            <li><a href="#">Phishing Awareness</a></li>
+            <li><a href="#">Report a Link</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact-col">
+          <h5>Emergency Contact</h5>
+          <p><i class="fas fa-phone" aria-hidden="true"></i> Cyber Helpline: <strong>1930</strong></p>
+          <p><i class="fas fa-envelope" aria-hidden="true"></i> help@cybershield.gov.in</p>
+          <p><i class="fas fa-globe" aria-hidden="true"></i> cybercrime.gov.in</p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 CyberShield — Government of India. All rights reserved.</p>
+        <p>Ministry of Electronics &amp; Information Technology (MeitY)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button id="scrollTopBtn" class="scroll-top-btn hidden" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <!-- App script -->
+  <script src="script.js"></script>
+</body>
+</html>
